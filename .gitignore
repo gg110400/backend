@@ -1,0 +1,215 @@
+# Sistema operativo e file di configurazione dell'editor
+###################
+# Windows
+###################
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msm
+*.msp
+*.lnk
+
+###################
+# macOS
+###################
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+._*
+.DocumentRevisions-V100
+.fseventsd
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+###################
+# Linux
+###################
+*~
+.nfs*
+
+# Editor di testo
+###################
+# Vim
+###################
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+###################
+# Sublime Text
+###################
+*.sublime-workspace
+
+###################
+# Emacs
+###################
+*~
+\#*\#
+.\#*
+
+###################
+# VSCode
+###################
+.vscode/
+.history/
+
+# Node.js
+###################
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+###################
+logs
+*.log
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Directory di output di build
+###################
+dist/
+build/
+
+# Cache
+###################
+.cache/
+.tmp/
+
+# Ambienti virtuali e file di configurazione Python
+###################
+.venv/
+env/
+env.bak/
+.env
+
+# Files di configurazione per applicazioni
+###################
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Files di configurazione specifici per IDE
+###################
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Altri file di configurazione comuni
+###################
+coverage/
+.cache/
+.parcel-cache/
+.next/
+out/
+
+# Typescript
+###################
+*.tsbuildinfo
+
+# Test output
+###################
+coverage/
+*.lcov
+
+# Compiled source
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Dependency directories
+###################
+node_modules/
+
+# Firebase
+###################
+.firebase/
+
+# Svelte
+###################
+__sapper__/
+public/
+
+# Nuxt.js
+###################
+.nuxt/
+dist/
+
+# Gatsby
+###################
+.cache/
+public/
+
+# Vue.js
+###################
+*.log
+*.node
+.DS_Store
+dist/
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# Compiled TypeScript
+###################
+*.tsbuildinfo
+
+# Miscellaneous
+###################
+*.env
+
+# Optional npm cache directory
+###################
+.npm
+
+# Optional eslint cache
+###################
+.eslintcache
+
+# Parcel-bundler cache
+###################
+.cache
+.parcel-cache
+
+# Next.js build output
+###################
+.next
+
+# Nuxt.js build output
+###################
+.nuxt
+dist
+
+# Gatsby files
+###################
+.cache/
+public/
+
+# Commenta se stai usando il modulo Phoenix se non è dentro una cartella con il suffisso _build
+###################
+_build/
