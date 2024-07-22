@@ -3,10 +3,10 @@ import BlogPosts from '../models/BlogPosts.js';
 import upload from '../middlewares/upload.js';
 import { sendEmail } from '../services/emailService.js';
 import cloudinaryUploader from '../config/cloudinaryConfig.js';
+import  authMiddleware from '../middlewares/authMiddleware.js';
 
 
 const router = express.Router();
-
 
 
 // Rotta per ottenere tutti i post del blog
@@ -52,6 +52,7 @@ router.get('/:id', async (req, res) => {
 });*/
 
 
+router.use(authMiddleware);
 // POST /blogPosts: crea un nuovo blog post (AGGIORNATA AD UPLOAD!)
 // router.post("/", upload.single("cover"), async (req, res) => {
     router.post("/", cloudinaryUploader.single('cover'), async (req, res) => {

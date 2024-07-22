@@ -36,7 +36,12 @@ router.post('/', async (req, res) => {
   try {
     const newAuthor = new Authors(req.body);
     await newAuthor.save();
-    res.status(201).json(newAuthor);
+
+
+    const authorResponse= newAuthor.toObject();
+    //elimino la password dalla response
+    delete authorResponse.password;
+    res.status(201).json(authorResponse);
   } catch (err) {
     console.error(err);
     res.status(400).json({ message: 'Bad Request' });
