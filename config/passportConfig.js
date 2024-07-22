@@ -11,7 +11,7 @@ passport.use(
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       // L'URL a cui Google reindizzerà dopo l'autenticazione
-      callbackURL: "/api/auth/google/callback",
+      callbackURL:`${process.env.BACKEND_URL}/api/auth/google/callback` ,
     },
     // Questa funzione viene chiamata quando l'autenticazione Google ha successo
     async (accessToken, refreshToken, profile, done) => {
@@ -56,7 +56,7 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser(async (id, done) => {
   try {
     // Cerchiamo l'utente nel database usando l'ID
-    const user = await Author.findById(id);
+    const user = await Authors.findById(id);
     // Passiamo l'utente completo al middleware di Passport
     done(null, user);
   } catch (error) {
@@ -64,6 +64,16 @@ passport.deserializeUser(async (id, done) => {
     done(error, null);
   }
 });
+
+passport.use(new GitHubStrategy({
+  // Usiamo le variabili d'ambiente per le credenziali OAuth di GitHub
+  clientID: process.env.GITHUB_CLIENT_ID,
+  clientSecret: process.env.GITHUB_CLIENT_SECRET,
+  // URL a cui GitHub reindirizzerà dopo l'autenticazione
+  callbackURL: `${process.env.BACKEND_URL}/api/auth/github/callback`
+
+})
+);
 
 // Esportiamo la configurazione di Passport
 export default passport;

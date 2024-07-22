@@ -1,13 +1,13 @@
-import express from 'express';
-import mongoose from 'mongoose';
-import cors from 'cors';
-import listEndpoints from 'express-list-endpoints';
-import dotenv from 'dotenv';
-import AuthorRoutes from './routes/AuthorRoutes.js';
-import BlogPostRoutes from './routes/BlogPostRoutes.js';
-import path from 'path';
-import { fileURLToPath } from 'url'; // Aggiungi questo import
-import AuthRoutes from './routes/AuthRoutes.js';
+import express from "express";
+import mongoose from "mongoose";
+import cors from "cors";
+import listEndpoints from "express-list-endpoints";
+import dotenv from "dotenv";
+import AuthorRoutes from "./routes/AuthorRoutes.js";
+import BlogPostRoutes from "./routes/BlogPostRoutes.js";
+import path from "path";
+import { fileURLToPath } from "url"; // Aggiungi questo import
+import AuthRoutes from "./routes/AuthRoutes.js";
 import session from "express-session";
 import passport from "./config/passportConfig.js";
 
@@ -18,13 +18,41 @@ import {
   error400Handler,
   error401Handler,
   error404Handler,
-  error500Handler
-} from './middlewares/errorHandler.js';
+  error500Handler,
+} from "./middlewares/errorHandler.js";
 
 // Configura le variabili d'ambiente
 dotenv.config();
 
 const app = express();
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    // Definiamo una whitelist di origini consentite.
+    // Queste sono gli URL da cui il nostro frontend farà richieste al backend.
+    const whitelist = [
+      "http://localhost:5173", // Frontend in sviluppo
+      "https://mern-blog-part-v.vercel.app/", // Frontend in produzione (prendere da vercel!)
+      "https://mern-blog-ctt3.onrender.com", // URL del backend (prendere da render!)
+    ];
+
+    if (process.env.NODE_ENV === "development") {
+      // In sviluppo, permettiamo anche richieste senza origine (es. Postman)
+      callback(null, true);
+    } else if (whitelist.indexOf(origin) !== -1 || !origin) {
+      // In produzione, controlliamo se l'origine è nella whitelist
+      callback(null, true);
+    } else {
+      callback(new Error("PERMESSO NEGATO - CORS"));
+    }
+  },
+  credentials: true, // Permette l'invio di credenziali, come nel caso di autenticazione
+  // basata su sessioni.
+};
+
+// NEW! passiamo `corsOptions` a cors()
+app.use(cors(corsOptions));
+
 const PORT = process.env.PORT || 5000;
 
 // Middleware
@@ -52,12 +80,10 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-
 // Rotte
-app.use('/api/authors', AuthorRoutes);
-app.use('/api/blogposts', BlogPostRoutes);
-app.use('/api/auth', AuthRoutes);
+app.use("/api/authors", AuthorRoutes);
+app.use("/api/blogposts", BlogPostRoutes);
+app.use("/api/auth", AuthRoutes);
 
 //app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
@@ -68,9 +94,10 @@ app.use(error404Handler);
 app.use(error500Handler);
 
 // Connetti a MongoDB
-mongoose.connect(process.env.MONGODB_URI)
-  .then(() => console.log('MongoDB connesso'))
-  .catch(err => console.error('Errore di connessione a MongoDB:', err));
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB connesso"))
+  .catch((err) => console.error("Errore di connessione a MongoDB:", err));
 
 // Avvia il server
 app.listen(PORT, () => {
