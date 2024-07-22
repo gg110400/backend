@@ -46,9 +46,6 @@ router.get(
   "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
-// Questo endpoint inizia il flusso di autenticazione OAuth con Google
-// 'google' si riferisce alla strategia GoogleStrategy configurata in passportConfig.js
-// scope: specifica le informazioni richiediamo a Google (profilo e email)
 
 
 // Rotta di callback per l'autenticazione Google
@@ -59,10 +56,6 @@ router.get(
 );
 
 
-
-
-
-//rotta per iniziare il processo di autenticazione github
 // Rotta per iniziare il processo di autenticazione GitHub
 router.get(
   "/github",
