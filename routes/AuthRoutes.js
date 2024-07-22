@@ -10,7 +10,7 @@ const router = express.Router();
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
 // post per il login che restituisce un token di accesso
-router.post("/login", async (req, res) => {
+router.post("/api/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     const author = await Authors.findOne({ email });
@@ -32,7 +32,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/me", authMiddleware, (req, res) => {
+router.get("/api/me", authMiddleware, (req, res) => {
   // Converte il documento Mongoose in un oggetto JavaScript semplice
   const authorData = req.author.toObject();
   // Rimuove il campo password per sicurezza
@@ -43,14 +43,14 @@ router.get("/me", authMiddleware, (req, res) => {
 
 // Rotta per iniziare il processo di autenticazione Google
 router.get(
-  "/google",
+  "/api/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 
 // Rotta di callback per l'autenticazione Google
 router.get(
-  "/google/callback",
+  "/api/google/callback",
   passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/login` }),
   handleAuthCallback
 );
@@ -58,7 +58,7 @@ router.get(
 
 // Rotta per iniziare il processo di autenticazione GitHub
 router.get(
-  "/github",
+  "/api/github",
   passport.authenticate("github", { scope: ["user:email"] })
 );
 // Questo endpoint inizia il flusso di autenticazione OAuth con GitHub
@@ -67,7 +67,7 @@ router.get(
 
 // Rotta di callback per l'autenticazione GitHub
 router.get(
-  "/github/callback",
+  "/api/github/callback",
   passport.authenticate('github', { failureRedirect: `${FRONTEND_URL}/login` }),
   handleAuthCallback
 );
