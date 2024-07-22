@@ -1,6 +1,7 @@
 // Importiamo le dipendenze necessarie
 import passport from "passport";
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
+import { Strategy as GitHubStrategy } from "passport-github2";
 import Authors from "../models/Authors.js";
 
 // Configuriamo la strategia di autenticazione Google
@@ -65,15 +66,46 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-passport.use(new GitHubStrategy({
-  // Usiamo le variabili d'ambiente per le credenziali OAuth di GitHub
-  clientID: process.env.GITHUB_CLIENT_ID,
-  clientSecret: process.env.GITHUB_CLIENT_SECRET,
-  // URL a cui GitHub reindirizzerà dopo l'autenticazione
-  callbackURL: `${process.env.BACKEND_URL}/api/auth/github/callback`
 
-})
+// Configuriamo la strategia di autenticazione GitHub
+passport.use(
+  new GitHubStrategy(
+    {
+      // Usiamo le variabili d'ambiente per le credenziali OAuth di GitHub
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      // URL a cui GitHub reindirizzerà dopo l'autenticazione
+      callbackURL: `${process.env.BACKEND_URL}/api/auth/github/callback`
+    },
+    // Questa funzione viene chiamata quando l'autenticazione GitHub ha successo
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        // Cerchiamo se esiste già un autore con questo ID GitHub
+        let author = await Authors.findOne({ githubId: profile.id });
+
+        // Se l'autore non esiste, ne creiamo uno nuovo
+        if (!author) {
+          author = new Authors({
+            githubId: profile.id, // ID univoco fornito da GitHub
+            nome: profile.displayName || profile.username, // Nome dell'utente (GitHub non fornisce il nome separato)
+            cognome: '', // GitHub non fornisce il cognome, lo lasciamo vuoto
+            email: profile.emails[0].value, // Email principale dell'utente
+            // Nota: la data di nascita non è fornita da GitHub, quindi la impostiamo a null
+            dataDiNascita: null,
+          });
+          // Salviamo il nuovo autore nel database
+          await author.save();
+        }
+
+        // Passiamo l'autore al middleware di Passport
+        // Il primo argomento null indica che non ci sono errori
+        done(null, author);
+      } catch (error) {
+        // Se si verifica un errore, lo passiamo a Passport
+        done(error, null);
+      }
+    }
+  )
 );
-
 // Esportiamo la configurazione di Passport
 export default passport;

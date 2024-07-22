@@ -26,7 +26,12 @@ const authorSchema = new mongoose.Schema(
     password: {
       type: String,
     },
-    googleId: { type: String }, // NEW! Nuovo campo per l'ID di Google
+    googleId: { 
+      type: String 
+    }, // Campo per l'ID di Google
+    githubId: { 
+      type: String 
+    }, // Campo per l'ID di GitHub
   },
   {
     timestamps: true,
@@ -34,7 +39,7 @@ const authorSchema = new mongoose.Schema(
   }
 );
 
-//funzione che confronta la password
+// Funzione che confronta la password
 authorSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
