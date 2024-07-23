@@ -21,7 +21,7 @@ export const authMiddleware = async (req, res, next) => {
     console.log('Token decodificato:', decoded);
 
     // Usa l'ID dell'autore dal token per trovare l'autore nel database
-    const author = await Author.findById(decoded.id).select('-password');
+    const author = await Authors.findById(decoded.id).select('-password');
 
     if (!author) {
       console.log('Autore non trovato nel database');
