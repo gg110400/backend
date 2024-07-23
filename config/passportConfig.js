@@ -19,7 +19,7 @@ passport.use(
     async (accessToken, refreshToken, profile, done) => {
       try {
         // Cerchiamo se esiste già un autore con questo ID Google
-        let author = await Author.findOne({ googleId: profile.id });
+        let author = await Authors.findOne({ googleId: profile.id });
 
         console.log("LOG AUTORE", author);
 
