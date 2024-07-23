@@ -34,6 +34,7 @@ const corsOptions = {
   origin: function (origin, callback) {
     const whitelist = [
       'http://localhost:5173', // Frontend in sviluppo
+      'http://localhost:3000',
       'https://backend-blog-80o6.onrender.com', // URL del backend
       'https://my-blog-self-six.vercel.app' // Frontend in produzione
     ];
