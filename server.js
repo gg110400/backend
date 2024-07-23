@@ -71,7 +71,7 @@ app.use(passport.session());
 // Rotte
 app.use("/api/authors", AuthorRoutes);
 app.use("/api/blogposts", BlogPostRoutes);
-app.use("/", AuthRoutes);
+app.use("/api/auth", AuthRoutes);
 
 // Middleware di errore
 app.use(error400Handler);
