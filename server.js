@@ -33,7 +33,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configurazione CORS
 const corsOptions = {
-  origin: process.env.FRONTEND_URL, //Permetti richieste da tutte le origini
+  origin: '*', //Permetti richieste da tutte le origini
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Metodi HTTP consentiti
   allowedHeaders: 'Content-Type, Authorization', // Intestazioni consentite
   credentials: true, // Permetti invio di credenziali come i cookie
