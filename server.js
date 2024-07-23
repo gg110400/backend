@@ -35,7 +35,7 @@ const corsOptions = {
     const whitelist = [
       'http://localhost:5173', // Frontend in sviluppo
       'https://backend-blog-80o6.onrender.com', // URL del backend
-      'https://my-blog-self-six.vercel.app/' // Frontend in produzione
+      'https://my-blog-self-six.vercel.app' // Frontend in produzione
     ];
     
     if (process.env.NODE_ENV === 'development') {
