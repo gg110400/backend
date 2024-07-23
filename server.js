@@ -58,6 +58,16 @@ app.use(cors(corsOptions));
 // Middleware per il parsing del JSON
 app.use(express.json());
 
+// Configurazione sessioni e passport
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your_secret_key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Rotte
 app.use("/api/authors", AuthorRoutes);
 app.use("/api/blogposts", BlogPostRoutes);
