@@ -10,7 +10,6 @@ import { fileURLToPath } from "url";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import session from "express-session";
 import passport from "./config/passportConfig.js";
-import path from 'path';
 
 
 // Configura le variabili d'ambiente
