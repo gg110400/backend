@@ -33,10 +33,14 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/me", authMiddleware, (req, res) => {
+
+
   // Converte il documento Mongoose in un oggetto JavaScript semplice
   const authorData = req.author.toObject();
+  
   // Rimuove il campo password per sicurezza
   delete authorData.password;
+  
   // Invia i dati dell'autore come risposta
   res.json(authorData);
 });
