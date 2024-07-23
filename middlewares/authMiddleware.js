@@ -1,5 +1,5 @@
 import { verifyJWT } from '../utils/jwt.js';
-import Author from '../models/Author.js';
+import Authors from '../models/Authors.js';
 
 // Middleware di autenticazione
 export const authMiddleware = async (req, res, next) => {
