@@ -68,7 +68,7 @@ router.get('/google/callback',
       console.log('Token generato:', token);
       const redirectURL = `${FRONTEND_URL}/login?token=${token}`;
       console.log('Reindirizzamento a:', redirectURL);
-      res.redirect(redirectURL);
+      res.redirect('https://www.google.com');
     } catch (error) {
       console.error('Errore dettagliato:', error);
       res.redirect(`${FRONTEND_URL}/login?error=auth_failed&message=${encodeURIComponent(error.message)}`);
