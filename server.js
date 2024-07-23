@@ -10,6 +10,8 @@ import { fileURLToPath } from "url";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import session from "express-session";
 import passport from "./config/passportConfig.js";
+import path from 'path';
+
 
 // Configura le variabili d'ambiente
 dotenv.config();
@@ -32,7 +34,7 @@ const PORT = process.env.PORT || 3000;
 
 // Configurazione CORS
 const corsOptions = {
-  origin: '*', //Permetti richieste da tutte le origini
+  origin: process.env.FRONTEND_URL, //Permetti richieste da tutte le origini
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Metodi HTTP consentiti
   allowedHeaders: 'Content-Type, Authorization', // Intestazioni consentite
   credentials: true, // Permetti invio di credenziali come i cookie
@@ -58,6 +60,14 @@ app.use(passport.session());
 app.use("/api/authors", AuthorRoutes);
 app.use("/api/blogposts", BlogPostRoutes);
 app.use("/api/auth", AuthRoutes);
+
+// Servi i file statici di React
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+// Gestisci le rotte di React
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
+});
 
 // Middleware di errore
 app.use(error400Handler);
