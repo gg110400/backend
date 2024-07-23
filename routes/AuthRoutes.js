@@ -47,20 +47,20 @@ router.get("/me", authMiddleware, (req, res) => {
 
 // Rotta per iniziare il processo di autenticazione Google
 router.get(
-  "api/auth/google",
+  "/google",
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
 // Rotta di callback per l'autenticazione Google
 router.get(
-  "api/auth/google/callback",
+  "/google/callback",
   passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/login` }),
   handleAuthCallback
 );
 
 // Rotta per iniziare il processo di autenticazione GitHub
 router.get(
-  "api/auth/github",
+  "/github",
   passport.authenticate("github", { scope: ["user:email"] })
 );
 // Questo endpoint inizia il flusso di autenticazione OAuth con GitHub
@@ -69,7 +69,7 @@ router.get(
 
 // Rotta di callback per l'autenticazione GitHub
 router.get(
-  "api/auth/github/callback",
+  "/github/callback",
   passport.authenticate('github', { failureRedirect: `${FRONTEND_URL}/login` }),
   handleAuthCallback
 );
