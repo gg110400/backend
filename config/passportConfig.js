@@ -52,52 +52,7 @@ passport.use(
   )
 );
 
-passport.use(
-  new GitHubStrategy(
-    {
-      clientID: process.env.GITHUB_CLIENT_ID,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: `${BACKEND_URL}/api/auth/github/callback`,
-    },
-    async (accessToken, refreshToken, profile, done) => {
-      try {
-        console.log('GitHub Callback URL:', `${BACKEND_URL}/api/auth/github/callback`);
-        console.log('GitHub Profile:', profile);
-        
-        let author = await Authors.findOne({ githubId: profile.id });
 
-        if (!author) {
-          author = new Authors({
-            githubId: profile.id,
-            nome: profile.displayName || profile.username,
-            cognome: '',
-            email: profile.emails[0].value,
-            dataDiNascita: null,
-          });
-          await author.save();
-        }
-
-        done(null, author);
-      } catch (error) {
-        console.error('Error during GitHub authentication:', error);
-        done(error, null);
-      }
-    }
-  )
-);
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-});
-
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await Authors.findById(id);
-    done(null, user);
-  } catch (error) {
-    done(error, null);
-  }
-});
 
 // Esportiamo la configurazione di Passport
 export default passport;
