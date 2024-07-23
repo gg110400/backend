@@ -15,7 +15,7 @@ import passport from "./config/passportConfig.js";
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename); 
 
 import {
   error400Handler,
