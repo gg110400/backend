@@ -9,7 +9,7 @@ const router = express.Router();
 
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:5173";
 
-// post per il login che restituisce un token di accesso
+// Rotta per il login che restituisce un token di accesso
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -47,14 +47,12 @@ router.get(
   passport.authenticate("google", { scope: ["profile", "email"] })
 );
 
-
 // Rotta di callback per l'autenticazione Google
 router.get(
   "/google/callback",
   passport.authenticate('google', { failureRedirect: `${FRONTEND_URL}/login` }),
   handleAuthCallback
 );
-
 
 // Rotta per iniziare il processo di autenticazione GitHub
 router.get(
@@ -72,7 +70,6 @@ router.get(
   handleAuthCallback
 );
 
-
 // Funzione helper per gestire il callback di autenticazione
 async function handleAuthCallback(req, res) {
   try {
@@ -84,7 +81,5 @@ async function handleAuthCallback(req, res) {
     res.redirect(`${FRONTEND_URL}/login?error=auth_failed`);
   }
 }
-
-
 
 export default router;
