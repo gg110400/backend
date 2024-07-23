@@ -11,6 +11,9 @@ import AuthRoutes from "./routes/AuthRoutes.js";
 import session from "express-session";
 import passport from "./config/passportConfig.js";
 
+// Configura le variabili d'ambiente
+dotenv.config();
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -21,9 +24,7 @@ import {
   error500Handler,
 } from "./middlewares/errorHandler.js";
 
-// Configura le variabili d'ambiente
-dotenv.config();
-
+// Crea un'app Express
 const app = express();
 
 // Definisci la variabile PORT
@@ -31,26 +32,10 @@ const PORT = process.env.PORT || 3000;
 
 // Configurazione CORS
 const corsOptions = {
-  origin: function (origin, callback) {
-    const whitelist = [
-      'http://localhost:5173', // Frontend in sviluppo
-      'http://localhost:3000',
-      'https://backend-blog-80o6.onrender.com', // URL del backend
-      'https://my-blog-self-six.vercel.app' // Frontend in produzione
-    ];
-    
-    if (process.env.NODE_ENV === 'development') {
-      console.log('CORS: Ambiente di sviluppo, permesso a tutte le origini');
-      callback(null, true);
-    } else if (whitelist.indexOf(origin) !== -1 || !origin) {
-      console.log(`CORS: Richiesta permessa dall'origine: ${origin}`);
-      callback(null, true);
-    } else {
-      console.error(`CORS: Permesso negato per l'origine: ${origin}`);
-      callback(new Error('PERMESSO NEGATO - CORS'));
-    }
-  },
-  credentials: true // Permette l'invio di credenziali, come nel caso di autenticazione basata su sessioni.
+  origin: '*', // Permetti richieste da tutte le origini
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Metodi HTTP consentiti
+  allowedHeaders: 'Content-Type, Authorization', // Intestazioni consentite
+  credentials: true, // Permetti invio di credenziali come i cookie
 };
 
 // Passiamo `corsOptions` a cors()
@@ -96,3 +81,4 @@ app.listen(PORT, () => {
 
 // Elenca gli endpoint
 console.table(listEndpoints(app));
+
