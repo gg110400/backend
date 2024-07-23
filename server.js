@@ -26,13 +26,16 @@ dotenv.config();
 
 const app = express();
 
+// Definisci la variabile PORT
+const PORT = process.env.PORT || 3000;
+
 // Configurazione CORS
 const corsOptions = {
   origin: function (origin, callback) {
     const whitelist = [
       'http://localhost:5173', // Frontend in sviluppo
       'https://backend-del-blog.onrender.com', // URL del backend
-      'https://my-blog-phi-seven.vercel.app/' // Frontend in produzione
+      'https://my-blog-self-six.vercel.app/' // Frontend in produzione
     ];
     
     if (process.env.NODE_ENV === 'development') {
